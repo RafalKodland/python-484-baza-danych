@@ -30,12 +30,17 @@ class Card(db.Model):
     
 
 #Zadanie #2. Utwórz tabelę użytkowników
+class User(db.Model):
+    # Tworzenie kolumn
+    # id
+    id = db.Column(db.Integer, primary_key=True)
 
+    login = db.Column(db.String(256), nullable=False)
+    password = db.Column(db.String(256), nullable=False)
 
-
-
-
-
+    # Wyprowadzanie obiektu i identyfikatora
+    def __repr__(self):
+        return f'<User {self.id}>'
 
 
 
@@ -48,10 +53,12 @@ def login():
             form_password = request.form['password']
             
             # Zadanie #4. Wdrożyć autoryzację
+            users = User.query.all()
+            for user in users:
+                if user.login == form_login and user.password == form_password:
+                    return redirect("/index")
             
-
-
-            
+            return render_template('login.html', error="Nie istnieje konto z podanym loginem i hasłem!")
         else:
             return render_template('login.html')
 
@@ -64,8 +71,9 @@ def reg():
         password = request.form['password']
         
         # Zadanie #3. Zadbaj o to, aby dane użytkownika zostały zapisane w bazie danych
-        
-
+        new_user = User(login=login, password=password)
+        db.session.add(new_user)
+        db.session.commit()
         
         return redirect('/')
     
