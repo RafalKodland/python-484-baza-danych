@@ -2,6 +2,7 @@
 from flask import Flask, render_template,request, redirect
 # Podłączenie biblioteki bazy danych
 from flask_sqlalchemy import SQLAlchemy
+from speech import record_speech
 
 
 app = Flask(__name__)
@@ -118,8 +119,8 @@ def form_create():
             db.session.commit()
             return redirect('/index')
         else:
-            print("Nagrano dźwięk")
-            return render_template('create_card.html')
+            transcription = record_speech()
+            return render_template('create_card.html', transcription=transcription)
     else:
         return render_template('create_card.html')
 
