@@ -112,6 +112,9 @@ def form_create():
             subtitle =  request.form['subtitle']
             text =  request.form['text']
 
+            if title == '' or subtitle == '' or text == '':
+                return render_template('create_card.html', error="Wszystkie pola muszą być wypełnione!", title=title, subtitle=subtitle, text=text)
+
             # Tworzenie obiektu, który zostanie wysłany do bazy danych
             card = Card(title=title, subtitle=subtitle, text=text)
 
@@ -123,7 +126,10 @@ def form_create():
             subtitle =  request.form['subtitle']
             text =  request.form['text']
             transcription = record_speech()
-            return render_template('create_card.html', transcription=transcription, title=title, subtitle=subtitle, text=text)
+            if transcription == "Nie udało się rozpoznać mowy":
+                return render_template('create_card.html', error="Nie udało się rozpoznać mowy. Spróbuj ponownie.", title=title, subtitle=subtitle, text=text)
+            text += " " + transcription
+            return render_template('create_card.html', title=title, subtitle=subtitle, text=text)
     else:
         return render_template('create_card.html')
 

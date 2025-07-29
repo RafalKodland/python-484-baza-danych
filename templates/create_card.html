@@ -22,6 +22,7 @@
         <form action="{{ url_for('form_create') }}" method="post" class="creat-form">
             <div class="form__card">
                 <img class="card__img" src="../static/img/post_icon.png" width="250" height="250" alt="post_icon">
+                <p class="error">{{error}}</p>
                 <div class="form__inputs">
                     <label for="title">
                         <input class="form__input" type="text" name="title" id="title" placeholder="Wpisz tytuł wpisu" value="{{ title }}">
@@ -31,7 +32,7 @@
                     </label>
                 </div>
                 <label for="text">
-                    <textarea class="form__text" name="text" id="text" cols="30" rows="10" placeholder="Wpisz jakiś tekst...">{{ text }} {{ transcription }}</textarea>
+                    <textarea class="form__text" name="text" id="text" cols="30" rows="10" placeholder="Wpisz jakiś tekst...">{{ text }}</textarea>
                 </label>
                 <button class="form__button" name="action" value="record">Nagraj</button>
                 <button class="form__button" name="action" value="create">Stwórz</button>
