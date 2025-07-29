@@ -104,21 +104,24 @@ def create():
 @app.route('/form_create', methods=['GET','POST'])
 def form_create():
     if request.method == 'POST':
-        title =  request.form['title']
-        subtitle =  request.form['subtitle']
-        text =  request.form['text']
+        action = request.form['action']
+        
+        if action == 'create':
+            title =  request.form['title']
+            subtitle =  request.form['subtitle']
+            text =  request.form['text']
 
-        # Tworzenie obiektu, który zostanie wysłany do bazy danych
-        card = Card(title=title, subtitle=subtitle, text=text)
+            # Tworzenie obiektu, który zostanie wysłany do bazy danych
+            card = Card(title=title, subtitle=subtitle, text=text)
 
-        db.session.add(card)
-        db.session.commit()
-        return redirect('/index')
+            db.session.add(card)
+            db.session.commit()
+            return redirect('/index')
+        else:
+            print("Nagrano dźwięk")
+            return render_template('create_card.html')
     else:
         return render_template('create_card.html')
-
-
-
 
 
 if __name__ == "__main__":
