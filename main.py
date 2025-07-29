@@ -119,8 +119,11 @@ def form_create():
             db.session.commit()
             return redirect('/index')
         else:
+            title =  request.form['title']
+            subtitle =  request.form['subtitle']
+            text =  request.form['text']
             transcription = record_speech()
-            return render_template('create_card.html', transcription=transcription)
+            return render_template('create_card.html', transcription=transcription, title=title, subtitle=subtitle, text=text)
     else:
         return render_template('create_card.html')
 
